@@ -1139,6 +1139,20 @@ int main(){
 
                     case 4:
                     /* Leane */
+                    for(auto consulta : consultas){
+                        cout << "Paciente: " << consulta.getPaciente().getNomePaciente() << endl;
+                        if(consulta.getRealizada() == 'n'){
+                            cout << "Paciente ira se consultar com: " << consulta.getMedico().getNomeMedico() << endl;
+                        } else{
+                            cout << "Paciente se consultou com: " << consulta.getMedico().getNomeMedico() << endl;
+                        }
+                        cout << "No dia: " << consulta.getData().getDia();
+                        cout << " / " << consulta.getData().getMes();
+                        cout << " / " << consulta.getData().getAno() << endl;
+                        cout << "Horario: " << consulta.getHora().getHora() << " : " << consulta.getHora().getMin() << endl;
+                        cout << "Duracao: " << consulta.getDuracao() << endl;
+                        cout << "Convennio: " << consulta.getConvenio() << endl;
+                    }
                          
                     break;
 
