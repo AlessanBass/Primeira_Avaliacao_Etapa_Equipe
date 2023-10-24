@@ -33,6 +33,34 @@ class Hora{
     }
 
 };
+class Hora{
+    private:
+    int hora, min;
+
+    public:
+     // Construtor
+    Hora(int _hora, int _min) {
+        this->hora = _hora;
+        this->min = _min;
+    }
+
+    void setHora(int _hora) {
+        this->hora = _hora;
+    }
+
+    void setMin(int _min) {
+        this->min = _min;
+    }
+
+    int getHora() {
+        return this->hora;
+    }
+
+    int getMin() {
+        return this->min;
+    }
+
+};
 
 class Data {
     private:
@@ -220,6 +248,37 @@ class Consulta{
         consultas.push_back(consulta);
     }
 
+    void alteraRealizada(Consulta &consulta){
+        consulta.setRealizada('s');
+    }
+
+    void alteraDuracao(Consulta &consulta, string duracao){
+        consulta.setDuracao(duracao);
+    }
+
+    void alteraHora(int hora, int min){
+        this->hora.setHora(hora);
+        this->hora.setMin(min);
+    }
+
+    void alteraConvenio(Consulta &consulta, string convenio){
+        consulta.setConvenio(convenio);
+    }
+
+    void aletrarData(Consulta &consulta, int dia, int mes, int ano){
+        consulta.alteraData(dia, mes, ano);
+    }
+
+    void alteraData(int dia, int mes, int ano){
+        this->data.setDia(dia);
+        this->data.setMes(mes);
+        this->data.setAno(ano);
+    }
+
+    void aletrarHora(Consulta &consulta, int hora, int min){
+        consulta.alteraHora(hora, min);
+    }
+
     int verificacaoConsultaRepetida(vector<Consulta> consultas, Consulta novaConsulta) {
         int diaNc, mesNc, anoNc, horaNc, minNc;
         diaNc = novaConsulta.getData().getDia();
@@ -262,6 +321,8 @@ class VerificaDados{
     int verificaCrm;
     int verificaHora;
     int verificaMinuto;
+    int verificaHora;
+    int verificaMinuto;
 
     public:
     int getVerificaTamanhoCpf(){
@@ -282,6 +343,10 @@ class VerificaDados{
 
     int getVerificaCrmCadastrado(){
         return this->verificaCrm;
+    }
+
+    int getVerificaHora(){
+        return this->verificaHora;
     }
 
     int getVerificaHora(){
@@ -375,6 +440,28 @@ class VerificaDados{
         }
         return 1;
     }
+
+    int verificacaoHora(int hora, int minuto){
+        if(hora >= 0 && hora <= 23 ){
+            this->verificaHora = 1;
+        }else{
+            this->verificaHora = 0;
+        }
+
+        if(minuto >= 0 && minuto <= 59 ){
+            this->verificaMinuto = 1;
+        }else{
+            this->verificaMinuto = 0;
+        }
+
+        if(this->verificaHora == 1 && this->verificaMinuto == 1){
+            return 1;
+        }
+        return 0;
+    }
+
+};
+
 
     int verificacaoHora(int hora, int minuto){
         if(hora >= 0 && hora <= 23 ){
@@ -822,8 +909,12 @@ int main(){
                             system("cls");
                             string cpf, crm, duracao, convenio ;
                             int dia, mes, ano, horaConsulta, minutoConsulta;
+                            string cpf, crm, duracao, convenio ;
+                            int dia, mes, ano, horaConsulta, minutoConsulta;
 
                             cout << "------- INSERIR CONSULTA -------" << endl;
+                            cout << "Informe o cpf do paciente: " << endl;
+                            getline(cin,cpf);
                             cout << "Informe o cpf do paciente: " << endl;
                             getline(cin,cpf);
                             cout << "Informe o CRM do medico" << endl;
@@ -891,6 +982,12 @@ int main(){
                         }
                     break;
 
+                    case 2:
+                        {/* Erika */
+                            
+                        }
+                    break;
+
                     case 2: /* Erika */
                         {
                         string crm;
@@ -943,8 +1040,111 @@ int main(){
                     case 3:
                         { /* Brenddol */
                            
+                    case 3:
+                        { /* Brenddol */
+                        string crmProcurado, cpfProcurado;
+                            int indice;
+                            char escolha;
+
+                            cout << "------- ALTERANDO CONSULTA -------" << endl;
+                            cout << "Informe o CRM do MEDICO: " << endl;
+                            getline(cin, crmProcurado);
+                            indice = localizarPorCrm(medicos, crmProcurado);
+
+                            if(indice != -1){
+                                cout << "------- LISTANDO PACIENTES DO MEDICO " << medicos[indice].getNomeMedico() << " -------" << endl;
+                                for(auto consulta : consultas){
+                                    if(consulta.getMedico().getCrm() == crmProcurado){
+                                        cout << "Nome: " << consulta.getPaciente().getNomePaciente() << endl;
+                                        cout << "CPF: " << consulta.getPaciente().getCpf() << endl;
+                                        cout << "-----------------------------------------" << endl;
+                                    }
+                                }
+
+                                cout << "Informe o cpf o paciente que deseja alterar a consulta: " << endl;
+                                getline(cin, cpfProcurado);
+                                int i = 0;
+                                for(auto consulta : consultas){
+                                    if((medicos[indice].getCrm() == crmProcurado)){
+                                       if(consulta.getPaciente().getCpf() == cpfProcurado){
+                                          cout << "Deseja registrar a consulta como realizada ? s/n" << endl;
+                                          cin >> escolha;
+
+                                          if(escolha == 's'){
+                                            consulta.alteraRealizada(consultas[i]);
+                                            break;
+                                          }else{
+                                            cout << "Deseja alterar a data da consulta como realizada ? s/n" << endl;
+                                            cin >> escolha;
+                                            if(escolha == 's'){
+                                                int dia, mes, ano;
+                                                cout << "Informe o dia da consulta: " << endl;
+                                                cin >> dia;
+                                                cout << "Informe o mes da consulta:" << endl;
+                                                cin >> mes;
+                                                cout << "Informe o ano da consulta:" << endl;
+                                                cin >> ano;
+
+                                                if(verificacao.verificacaoData(dia, mes, ano) != 1){
+                                                    cout << "Data invalida..." << endl;
+                                                    break;
+                                                }
+                                                consulta.aletrarData(consultas[i], dia, mes, ano);
+                                            }
+
+                                            cout << "Deseja alterar a hora da consulta como realizada ? s/n" << endl;
+                                            cin >> escolha;
+                                            if(escolha == 's'){
+                                                int hora, min;
+                                                cout << "Informe a hora consulta: " << endl;
+                                                cin >> hora;
+                                                cout << "Informe os minutos:" << endl;
+                                                cin >> min;
+
+                                                if(verificacao.verificacaoHora(hora, min) != 1){
+                                                    cout << "Hora invalida invalida..." << endl;
+                                                    break;
+                                                }
+                                                consulta.aletrarHora(consultas[i], hora, min);
+                                            }
+
+                                            cout << "Deseja alterar a duracao da consulta ? s/n" << endl;
+                                            cin >> escolha;
+                                            cin.ignore();
+                                            if(escolha == 's'){
+                                                string duracao;
+                                                cout << "Informe a duracao da consulta: " << endl;
+                                                getline(cin, duracao);
+                                               
+                                                consulta.alteraDuracao(consultas[i], duracao);
+                                            }
+
+                                            cout << "Deseja alterar o convenio da consulta ? s/n" << endl;
+                                            cin >> escolha;
+                                            cin.ignore();
+                                            if(escolha == 's'){
+                                                string convenio;
+                                                cout << "Informe o convenio da consulta: " << endl;
+                                                getline(cin, convenio);
+                                               
+                                                consulta.alteraConvenio(consultas[i], convenio);
+                                            }
+
+                                          }
+                                        }
+                                    }
+                                    i++;
+                                }
+
+                                cout << "----------------------------------------------------" << endl;
+
+                            }else{
+                                cout << "Paciente nao encontrado..." << endl;
+                            }
+                            cout << "----------------------------------" << endl;
                         }
-                    break;
+                        
+                        break;
 
                     case 4:
                     /* Leane */
