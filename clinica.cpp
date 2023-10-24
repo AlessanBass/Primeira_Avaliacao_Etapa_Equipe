@@ -891,8 +891,51 @@ int main(){
                         }
                     break;
 
-                    case 2:
-                        {/* Erika */
+                    case 2: /* Erika */
+                        {
+                        string crm;
+                        string cpf;
+                        int indice;
+
+                        cout << "Informe o CRM do medico:" << endl;
+                        getline(cin, crm);
+
+                        indice = localizarPorCrm(medicos,crm);
+
+                        if (indice != -1) {
+
+                            if (consultas.size() == 0){
+                                cout << "Nenhuma consulta registrada" << endl;
+                                break;
+                            }
+
+                            for(auto consulta : consultas) {
+                                if (consulta.getMedico().getCrm() == crm) {
+                                    cout << "Nome: " << consulta.getPaciente().getNomePaciente() << endl;
+                                    cout << "CPF: " << consulta.getPaciente().getCpf() << endl;
+                                    cout << "-----------------------------------------" << endl;
+                                }
+                            }
+
+                            cout << "Informe o CPF do paciente que deseja remover" << endl;
+                            getline(cin, cpf);
+
+                            int i=0;
+
+                            for(auto consulta : consultas) {
+                                if (medicos[i].getCrm() == crm) {
+                                    if (consulta.getPaciente().getCpf() == cpf) {
+                                        consultas.erase(consultas.begin()+i);
+                                        cout << "Consulta excluida!" << endl;
+                                    }
+                                }
+                                i++;
+                            }
+                        } else {
+                            cout << "Medico não encontrado" << endl;
+                        }                       
+
+                        
                             
                         }
                     break;
