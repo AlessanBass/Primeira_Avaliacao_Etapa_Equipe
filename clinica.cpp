@@ -417,22 +417,6 @@ int localizarPorCrm(vector<Medico> medicos, string crmProcurado){
     return -1;
 }
 
-int verificaConsulta(vector<Consulta> consultas, string crmProcurado, string cpfProcurado){
-    for(int i = 0; i<consultas.size(); i++){
-        if(medicos[i].getCrm() == crmProcurado){
-            return i;
-        }
-    }
-    return -1;
-    
-    for(int i = 0; i<consultas.size(); i++){
-        if(pacientes[i].getCpf() == cpfProcurado){
-            return i;
-        }
-    }
-    return -1;
-}
-
 int main(){
     
     int opcao;
@@ -884,16 +868,22 @@ int main(){
                             cout << "Informe a duracao da consulta:" << endl;
                             getline(cin, duracao);
 
-                            cout << "------- EXCLUIR CONSULTA -------" << endl;
-                            cout << "Informe o crm do paciente: " << endl;
-                            getline(cin, crmProcurado);
-                            indice = localizarPorCrm(medicos, crmProcurado);
+                            cout << "----------- CONVENIO ----------" << endl;
+                            cout << "Informe o convenio da consulta: " << endl;
+                            getline(cin, convenio);
+                        
 
-                            if(indice != -1){
-                                cout << "Medico de nome: " << medicos[indice].getNomeMedico() << " excluido." << endl;
-                                medicos.erase(medicos.begin() + indice);
+                            //Verificar se existem consultas repetidas
+                            Data data(dia, mes, ano);
+                            Hora hora (horaConsulta, minutoConsulta);
+                            Consulta novaConsulta(pacientes[posicaoPaciente], medicos[posicaoMedico], data, hora, duracao, convenio, 'n');
+
+                            if(novaConsulta.verificacaoConsultaRepetida(consultas, novaConsulta)){
+                                novaConsulta.incluir(consultas, novaConsulta);
+                                system("cls");
+                                cout << "Consulta cadastrada com sucesso!" << endl;
                             }else{
-                                cout << "Paciente nao encontrado..." << endl;
+                                 cout << "Consulta ja cadastrada" << endl;
                             }
                             
 
