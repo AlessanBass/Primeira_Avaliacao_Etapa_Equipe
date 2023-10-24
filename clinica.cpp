@@ -260,7 +260,7 @@ class VerificaDados{
     int verificaCpfCadastrado;
     int verificaData;
     int verificaCrm;
-    int verificaHora;
+int verificaHora;
     int verificaMinuto;
 
     public:
@@ -376,7 +376,7 @@ class VerificaDados{
         return 1;
     }
 
-    int verificacaoHora(int hora, int minuto){
+int verificacaoHora(int hora, int minuto){
         if(hora >= 0 && hora <= 23 ){
             this->verificaHora = 1;
         }else{
@@ -394,7 +394,7 @@ class VerificaDados{
         }
         return 0;
     }
-
+    
 };
 
 
@@ -423,7 +423,7 @@ int main(){
     int opcaoSubMenu;
     vector <Paciente> pacientes;
     vector <Medico> medicos;
-    vector <Consulta> consultas;
+    vector <Consulta> consultas; 
     VerificaDados verificacao;
     
 
@@ -702,7 +702,7 @@ int main(){
                                 cout << "Medico de nome: " << medicos[indice].getNomeMedico() << " excluido." << endl;
                                 medicos.erase(medicos.begin() + indice);
                             }else{
-                                cout << "Medico nao encontrado..." << endl;
+                                cout << "Paciente nao encontrado..." << endl;
                             }
                              cout << "----------------------------------" << endl;
                         }
@@ -777,7 +777,7 @@ int main(){
                             string crmProcurado;
                             int indice;
 
-                            cout << "------- LOCALIZAR MEDICO -------" << endl;
+                            cout << "------- LOCALIZAR Medico -------" << endl;
                             cout << "Informe o CRM do Medico: " << endl;
                             getline(cin, crmProcurado);
                             indice = localizarPorCrm(medicos, crmProcurado);
@@ -828,84 +828,115 @@ int main(){
                             getline(cin,cpf);
                             cout << "Informe o CRM do medico" << endl;
                             getline(cin,crm);
-                            
-                            int posicaoPaciente = localizarPorCpf(pacientes, cpf);
-                            int posicaoMedico = localizarPorCrm(medicos, crm);
+                            cout << "Informe a especialidade do medico" << endl;
+                            getline(cin,especialidade);
 
-                            if(posicaoPaciente < 0){
-                                cout << "Paciente nao encontrado..." << endl;
-                                break;
-                            }else if(posicaoMedico < 0){
-                                cout << "Medico nao encontrado..." << endl;
-                                break;
-                            }
-
-                            cout << "----------- DATA ----------" << endl;
-                            cout << "Informe o dia da consulta: " << endl;
-                            cin >> dia;
-                            cout << "Informe o mes da consulta:" << endl;
-                            cin >> mes;
-                            cout << "Informe o ano da consulta:" << endl;
-                            cin >> ano;
-
-                            if(verificacao.verificacaoData(dia, mes, ano) != 1){
-                                cout << "Data invalida..." << endl;
-                                break;
-                            }
-
-                            cout << "----------- HORA ----------" << endl;
-                            cout << "Informe a hora consulta: " << endl;
-                            cin >> horaConsulta;
-                            cout << "Informe os minutos:" << endl;
-                            cin >> minutoConsulta;
-
-                            if(verificacao.verificacaoHora(horaConsulta, minutoConsulta) != 1){
-                                cout << "Hora invalida invalida..." << endl;
-                                break;
-                            }
-
-                            cin.ignore();
-                            cout << "Informe a duracao da consulta:" << endl;
-                            getline(cin, duracao);
-
-                            cout << "----------- CONVENIO ----------" << endl;
-                            cout << "Informe o convenio da consulta: " << endl;
-                            getline(cin, convenio);
-                        
-
-                            //Verificar se existem consultas repetidas
-                            Data data(dia, mes, ano);
-                            Hora hora (horaConsulta, minutoConsulta);
-                            Consulta novaConsulta(pacientes[posicaoPaciente], medicos[posicaoMedico], data, hora, duracao, convenio, 'n');
-
-                            if(novaConsulta.verificacaoConsultaRepetida(consultas, novaConsulta)){
-                                novaConsulta.incluir(consultas, novaConsulta);
+                            if(verificacao.vericacaoCrm(medicos, crm)){
+                                Medico novoMedico (nomeMedico, crm, especialidade);
+                                novoMedico.incluir(medicos, novoMedico);
                                 system("cls");
-                                cout << "Consulta cadastrada com sucesso!" << endl;
+                                cout << "Medico inserido com sucesso!" << endl;
                             }else{
-                                 cout << "Consulta ja cadastrada" << endl;
+                                cout << "Medico ja inserido..." << endl;
                             }
-                            
-
-
                         }
                     break;
 
                     case 2:
                         {/* Erika */
-                            
+                            system("cls");
+                            string crmProcurado;
+                            int indice;
+
+                            cout << "------- EXCLUIR CONSULTA -------" << endl;
+                            cout << "Informe o crm do paciente: " << endl;
+                            getline(cin, crmProcurado);
+                            indice = localizarPorCrm(medicos, crmProcurado);
+
+                            if(indice != -1){
+                                cout << "Medico de nome: " << medicos[indice].getNomeMedico() << " excluido." << endl;
+                                medicos.erase(medicos.begin() + indice);
+                            }else{
+                                cout << "Paciente nao encontrado..." << endl;
+                            }
+                             cout << "----------------------------------" << endl;
                         }
                     break;
 
                     case 3:
                         { /* Brenddol */
-                           
+                            system("cls");
+                            string crmProcurado, nome, especialidade;
+                            int indice, escolha;
+
+                            cout << "------- ALTERANDO CONSULTA -------" << endl;
+                            cout << "Informe o CRM do MEDICO: " << endl;
+                            getline(cin, crmProcurado);
+                            indice = localizarPorCrm(medicos, crmProcurado);
+                            if(indice != -1){
+                                cout << "Nome: " << medicos[indice].getNomeMedico() << endl;
+                                cout << "CRM: " << medicos[indice].getCrm() << endl;
+                                cout << "Especialidade: " << medicos[indice].getEspecialidade() << endl;
+
+                                cout << "----------------------------------------------------" << endl;
+
+                                cout << "Deseja alterar o nome desse medico: 1-SIM / 2-NAO" << endl;
+                                cin >> escolha;
+                                cin.ignore();
+
+                                if(escolha == 1){
+                                    cout << "Informe o nome do medico: " << endl;
+                                    getline(cin, nome);
+                                    medicos[indice].alterarNomeMedico(medicos[indice], nome);
+                                    cout << "Nome alterado com sucesso!" << endl;
+                                }else if(escolha != 1 && escolha != 2){
+                                    cout << "Opcao invalida!" << endl;
+                                    break;
+                                }
+
+                                cout << "Deseja alterar a especilidade desse medico: 1-SIM / 2-NAO" << endl;
+                                cin >> escolha;
+                                cin.ignore();
+
+                                if(escolha == 1){
+                                    cout << "Informe a especialidade: " << endl;
+                                    getline(cin, especialidade);
+                                    medicos[indice].alterarEspecialidadeMedico(medicos[indice], especialidade);
+                                    cout << "Especialidade alterada com sucesso!" << endl;
+                                }else if(escolha != 1 && escolha != 2){
+                                    cout << "Opcao invalida!" << endl;
+                                }
+
+                            }else{
+                                cout << "Paciente nao encontrado..." << endl;
+                            }
+                            cout << "----------------------------------" << endl;
                         }
                     break;
 
                     case 4:
                     /* Leane */
-                         
+                         system("cls");
+                        
+                         cout << "------- LISTANDO CONSULTAS -------" << endl; 
+                        for(auto Consulta : consultas){                           
+
+                            cout << "------------------------------" << endl;
+                            cout << "Paciente: " << Consulta.getPaciente().getNomePaciente() << endl;
+                            cout << "Medico: " << Consulta.getMedico().getNomeMedico() << endl;
+                            cout << "Convenio: " << Consulta.getConvenio() << endl; 
+                            cout << "Data e Hora: " << Consulta.getDt() << endl;
+                            if(Consulta.getRealizada() == n){
+                                cout <<"Consulta Nao Realizada" << endl;
+                            }
+
+
+                           
+                           
+                            cout << "Consulta Realizada? " << Consulta.getRealizada() << endl;
+                            
+                        }
+                         cout << "--------------------------------" << endl;
                     break;
 
                     default:
