@@ -982,12 +982,6 @@ int main(){
                         }
                     break;
 
-                    case 2:
-                        {/* Erika */
-                            
-                        }
-                    break;
-
                     case 2: /* Erika */
                         {
                         string crm;
@@ -1036,10 +1030,7 @@ int main(){
                             
                         }
                     break;
-
-                    case 3:
-                        { /* Brenddol */
-                           
+    
                     case 3:
                         { /* Brenddol */
                         string crmProcurado, cpfProcurado;
