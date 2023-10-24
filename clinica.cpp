@@ -300,6 +300,36 @@ class Consulta{
     void setConvenio(string convenio) { this->convenio = convenio; }
     void setPaciente(Paciente paciente) { this->paciente = paciente; }
     void setMedico(Medico medico) { this->medico = medico; }
+
+    bool operator==(const Consulta& other) const {
+    return _realizada == other._realizada && _dataHora == other._dataHora && _convenio == other._convenio && _paciente == other._paciente && _medico == other._medico;
+    }
+    
+    friend void excluirConsulta(vector<Consulta>& consultas, const string& CPF);
+};
+
+    void listarConsultas(const vector<Consulta>& consultas) {
+  for (const auto& consulta : consultas) {
+    cout << "_realizada: " << consulta._realizada << endl;
+    cout << "_dataHora: " << consulta._dataHora << endl;
+    cout << "_convenio: " << consulta._convenio << endl;
+    cout << "_paciente: " << consulta._paciente << endl;
+    cout << "_medico: " << consulta._medico << endl;
+    cout << endl;
+  }
+}
+
+void excluirConsulta(vector<Consulta>& consultas, const string& _paciente) {
+  auto it = find_if(consultas.begin(), consultas.end(), [_paciente](const Consulta& consulta) {
+    return consulta._paciente == _paciente;
+  });
+  if (it != consultas.end()) {
+    consultas.erase(it);
+  }
+}
+
+  friend void excluirConsulta(vector<Consulta>& consultas, const string& CPF);
+};
     
 };
 
@@ -315,6 +345,22 @@ int localizarPorCpf(vector<Paciente> pacientes, string cpfProcurado){
 int localizarPorCrm(vector<Medico> medicos, string crmProcurado){
     for(int i = 0; i<medicos.size(); i++){
         if(medicos[i].getCrm() == crmProcurado){
+            return i;
+        }
+    }
+    return -1;
+}
+
+int verificaConsulta(vector<Consulta> consultas, string crmProcurado, string cpfProcurado){
+    for(int i = 0; i<consultas.size(); i++){
+        if(medicos[i].getCrm() == crmProcurado){
+            return i;
+        }
+    }
+    return -1;
+    
+    for(int i = 0; i<consultas.size(); i++){
+        if(pacientes[i].getCpf() == cpfProcurado){
             return i;
         }
     }
@@ -749,18 +795,42 @@ int main(){
                         {/* Erika */
                             system("cls");
                             string crmProcurado;
+                            string cpfProcurado;
+                            string nomeProcurado;
+                            vector<Consulta> consultas;
                             int indice;
 
-                            cout << "------- EXCLUIR CONSULTA -------" << endl;
-                            cout << "Informe o crm do paciente: " << endl;
+                            cout << "-------- EXCLUIR CONSULTA --------" << endl;
+                            cout << "Informe o CRM do medico: " << endl;
                             getline(cin, crmProcurado);
                             indice = localizarPorCrm(medicos, crmProcurado);
+                            
+                            // Lista todas as consultas do médico
+                            for (const auto& consulta : consultas) {
+                             if (consulta.CRM == CRM) {
+                              cout << "CPF: " << consulta.CPF << endl;
+                            }
+                        }
+                            
+                            
+                            cout << "Informe o CPF do paciente que nao realizou//realizara a consulta: " << endl;
+                            getline(cin, cpfProcurado);
+                            indice = localizarPorCpf(pacientes, cpfProcurado);
+
+                            // Exclui o registro
+                            excluirConsulta(consultas, _paciente);
+
+                            // Lista as consultas restantes
+                            cout << "Consultas restantes:" << endl;
+                            listarConsultas(consultas);
+
+                                                                    
 
                             if(indice != -1){
-                                cout << "Medico de nome: " << medicos[indice].getNomeMedico() << " excluido." << endl;
-                                medicos.erase(medicos.begin() + indice);
+                                cout << "Condulta: " << medicos[indice].getNomeMedico() << " excluido." << endl;
+                                consulta.erase(consulta.begin() + indice);
                             }else{
-                                cout << "Paciente nao encontrado..." << endl;
+                                cout << "Consulta nao encontrado..." << endl;
                             }
                              cout << "----------------------------------" << endl;
                         }
