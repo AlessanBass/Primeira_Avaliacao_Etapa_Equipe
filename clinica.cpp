@@ -321,6 +321,22 @@ int localizarPorCrm(vector<Medico> medicos, string crmProcurado){
     return -1;
 }
 
+int consultarPorCPF(vector<Paciente> pacientes, string cpfProcurado) {
+    for(i = 0; i<pacientes.size(); i++) {
+        if (pacientes[i].getPaciente() == cpfProcurado){
+             return i;
+        }
+             
+    } 
+    return -1;
+
+}
+
+void agendaConsulta(Consulta* consulta) {
+        consultas.push_back(consulta);
+    }
+
+
 int main(){
     
     int opcao;
@@ -767,52 +783,89 @@ int main(){
                     break;
 
                     case 3:
-                        { /* Brenddol */
+                        { /* Brenndol */
                             system("cls");
-                            string crmProcurado, nome, especialidade;
+                            string crm;
+                            Medico medico;
+                            Paciente paciente;
                             int indice, escolha;
 
                             cout << "------- ALTERANDO CONSULTA -------" << endl;
-                            cout << "Informe o CRM do MEDICO: " << endl;
-                            getline(cin, crmProcurado);
+                            cout << "Informe o CRM do medico: " << endl;
+                            getline(cin, crm);
                             indice = localizarPorCrm(medicos, crmProcurado);
-                            if(indice != -1){
+                            
+                            cout << "Paciente com consultas por esse medico" endl;
+                            Medico medicoConsulta(string crm);
+                              auto consultasMedico = agenda.consultarPorCPF(&medicoConsulta);
+
+                              cout << "Digite o CPF do paciente:" << endl;
+                              cin >> cpf;
+
+
+                            /*if(indice != -1){
                                 cout << "Nome: " << medicos[indice].getNomeMedico() << endl;
                                 cout << "CRM: " << medicos[indice].getCrm() << endl;
                                 cout << "Especialidade: " << medicos[indice].getEspecialidade() << endl;
 
-                                cout << "----------------------------------------------------" << endl;
+                                cout << "----------------------------------------------------" << endl;*/
 
-                                cout << "Deseja alterar o nome desse medico: 1-SIM / 2-NAO" << endl;
+                                cout << "Deseja registrar a consulta como realizada? (s/n) " << endl;
                                 cin >> escolha;
                                 cin.ignore();
 
-                                if(escolha == 1){
-                                    cout << "Informe o nome do medico: " << endl;
-                                    getline(cin, nome);
-                                    medicos[indice].alterarNomeMedico(medicos[indice], nome);
-                                    cout << "Nome alterado com sucesso!" << endl;
-                                }else if(escolha != 1 && escolha != 2){
-                                    cout << "Opcao invalida!" << endl;
+                                if(escolha == s){
+                                    cout << "Consulta realizada!" << endl;
+                                    this-> setRealizada = 'S';
+                                       return 0;
+
+                                }else if(escolha == n){
+                                    
                                     break;
                                 }
 
-                                cout << "Deseja alterar a especilidade desse medico: 1-SIM / 2-NAO" << endl;
+                                cout << "Deseja alterar a data? 1- SIM / 2- NAO" << endl;
                                 cin >> escolha;
                                 cin.ignore();
 
                                 if(escolha == 1){
-                                    cout << "Informe a especialidade: " << endl;
-                                    getline(cin, especialidade);
-                                    medicos[indice].alterarEspecialidadeMedico(medicos[indice], especialidade);
-                                    cout << "Especialidade alterada com sucesso!" << endl;
-                                }else if(escolha != 1 && escolha != 2){
+                                    cout << "Digite a nova data: " << endl;
+                                    getline (cin, Data);
+                                
+                                    }
+                                cout << "Deseja alterar a hora? 1- SIM / 2- NAO" << endl;
+                                cin >> escolha;
+                                cin.ignore();
+
+                                if(escolha == 1){
+                                    cout << "Digite um novo horario: " << endl;
+                                    getline (cin, dataHora);
+                                }    
+
+                                cout << "Deseja alterar a duracao? 1- SIM / 2- NAO" << endl;
+                                cin >> escolha;
+                                cin.ignore();
+
+                                if(escolha == 1){
+                                    cout << "Digite para quanto tempo deseja alterar:" << endl;
+                                    getline (cin, duracao);
+                                }
+
+                                cout << "Deseja alterar o convenio? 1-SIM / 2- NAO" << endl;
+                                cin >> escolha;
+                                cin.ignore();
+
+                                if(escolha == 1){
+                                    cout << "Digite o novo convenio:" << endl;
+                                    getline (cin, convenio);
+                                }
+                                    
+                                    
+                                    else if(escolha != 1 && escolha != 2){
                                     cout << "Opcao invalida!" << endl;
                                 }
 
-                            }else{
-                                cout << "Paciente nao encontrado..." << endl;
-                            }
+                            }else{}
                             cout << "----------------------------------" << endl;
                         }
                     break;
